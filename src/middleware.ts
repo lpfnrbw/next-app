@@ -5,5 +5,5 @@ export { auth as default } from "./auth";
 export const runtime = "nodejs";
 
 export const config = {
-  matcher: ["/protected/:path*", "/permissions/:path*"],
+  matcher: ["/protected/:path*"],
 };

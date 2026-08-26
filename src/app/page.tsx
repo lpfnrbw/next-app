@@ -6,40 +6,37 @@ import { signIn, signOut, useSession } from "next-auth/react";
 export default function HomePage() {
   const { data: session, status } = useSession();
   const user = session?.user;
-  const roles = user?.roles ?? [];
 
   if (status === "loading") {
-    return <section><h1>Keycloak SSO 验证</h1><p>正在读取本地会话…</p></section>;
+    return <section><h1>Keycloak SSO</h1><p>Loading your session…</p></section>;
   }
 
   if (!user) {
     return (
       <section>
-        <h1>Keycloak SSO 验证</h1>
-        <p>当前未登录。</p>
-        <button type="button" onClick={() => signIn("keycloak", { callbackUrl: "/" })}>登录</button>
+        <h1>Keycloak SSO</h1>
+        <p>You are not signed in.</p>
+        <button type="button" onClick={() => signIn("keycloak", { callbackUrl: "/" })}>Sign in</button>
       </section>
     );
   }
 
   return (
     <section>
-      <h1>Keycloak SSO 验证</h1>
-      <p>当前已登录。</p>
-      <UserDetails user={user} roles={roles} />
-      <p><Link className="button" href="/protected">进入受保护页面</Link></p>
-      <button type="button" onClick={() => signOut({ callbackUrl: "/" })}>登出</button>
+      <h1>Keycloak SSO</h1>
+      <p>You are signed in.</p>
+      <UserDetails user={user} />
+      <p><Link className="button" href="/protected">Open protected page</Link></p>
+      <button type="button" onClick={() => signOut({ callbackUrl: "/" })}>Sign out</button>
     </section>
   );
 }
 
-function UserDetails({ user, roles }: { user: { name?: string | null; email?: string | null; id?: string }; roles: string[] }) {
+function UserDetails({ user }: { user: { name?: string | null; email?: string | null } }) {
   return (
     <dl>
-      <dt>姓名</dt><dd>{user.name ?? "未提供"}</dd>
-      <dt>邮箱</dt><dd>{user.email ?? "未提供"}</dd>
-      <dt>Subject</dt><dd>{user.id ?? "未提供"}</dd>
-      <dt>角色/权限</dt><dd>{roles.length ? roles.join("、") : "无"}</dd>
+      <dt>Name</dt><dd>{user.name ?? "Not provided"}</dd>
+      <dt>Email</dt><dd>{user.email ?? "Not provided"}</dd>
     </dl>
   );
 }
