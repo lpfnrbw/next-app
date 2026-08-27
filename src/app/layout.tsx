@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { SessionProvider } from "next-auth/react";
-// import "./globals.css";
+import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Keycloak OIDC SSO Demo",
-  description: "Minimal Next.js App Router Keycloak OIDC verification app",
+  title: "Northstar Access",
+  description: "A Keycloak authentication workspace",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
@@ -12,7 +12,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en">
       <body>
         <SessionProvider>
-          <main>{children}</main>
+          <main className="app-shell">{children}</main>
         </SessionProvider>
       </body>
     </html>
